@@ -29,21 +29,10 @@ func main() {
 		// Include the router as part of the application structure ?
 	}
 
-	// Use the http.NewServeMux() function to initialize a new servemux, then
-	// register the home function as the handler for the "/" URL pattern.
-	mux := http.NewServeMux()
-	configRouter(mux, app)
-
-	// Serves the static files using a Http FileServer
-	fileServer := http.FileServer(http.Dir("./ui/assets/"))
-
-	// Removes part of the path so the files can be matched againts the filesystem.
-	mux.Handle("/assets/", http.StripPrefix("/assets", neuter(fileServer)))
-
 	srv := &http.Server{
 		Addr:     *addr,
 		ErrorLog: errorLog,
-		Handler:  mux,
+		Handler:  app.routes(),
 	}
 
 	// Use the http.ListenAndServe() function to start a new web server. We pass in // two parameters: the TCP network address to listen on (in this case ":4000") // and the servemux we just created. If http.ListenAndServe() returns an error // we use the log.Fatal() function to log the error message and exit. Note
