@@ -4,8 +4,8 @@ import (
 	"net/http"
 )
 
-func configRouter(mux *http.ServeMux) {
-	mux.HandleFunc("/", home)
-	mux.HandleFunc("/snippet", showSnippet)
-	mux.HandleFunc("/snippet/create", createSnippet)
+func configRouter(mux *http.ServeMux, app *application) {
+	mux.HandleFunc("/", app.home)
+	mux.HandleFunc("/snippet", app.showSnippet)
+	mux.HandleFunc("/snippet/create", app.createSnippet)
 }
