@@ -1,3 +1,4 @@
+// Package mysql : holds the interactions with the database.
 package mysql
 
 import (
@@ -61,7 +62,7 @@ func (m *SnippetModel) Get(id int) (*models.Snippet, error) {
 	return s, nil
 }
 
-// Latests : This will return the 10 most recently created snippets.
+// Latest : This will return the 10 most recently created snippets.
 func (m *SnippetModel) Latest() ([]*models.Snippet, error) {
 	stmt := `SELECT id, title, content, created, expires FROM snippets 
 	WHERE expires > UTC_TIMESTAMP() ORDER BY created DESC LIMIT 10`
