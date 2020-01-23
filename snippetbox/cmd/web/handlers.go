@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"html/template"
 	"net/http"
 	"strconv"
 
@@ -25,29 +24,9 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := &templateData{Snippets: s}
-	// Parses the templates files.
-	// Initialize a slice containing the paths to the two files. Note that the // home.page.tmpl file must be the *first* file in the slice.
-	files := []string{
-		"./ui/html/home.page.tmpl",
-		"./ui/html/base.layout.tmpl",
-		"./ui/html/footer.partial.tmpl",
-	}
-
-	ts, err := template.ParseFiles(files...)
-
-	// If an error occurs during parsing an error is send to the client with a 500 error message.
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	// Compiles the template and passes the variables as a second parameter, in this case nil.
-	err = ts.Execute(w, data)
-
-	if err != nil {
-		app.serverError(w, err)
-	}
+	app.render(w, r, "home.page.tmpl", &templateData{
+		Snippets: s,
+	})
 
 }
 
@@ -71,27 +50,9 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	files := []string{
-		"./ui/html/show.page.tmpl",
-		"./ui/html/base.layout.tmpl",
-		"./ui/html/footer.partial.tmpl",
-	}
-
-	data := &templateData{Snippet: s}
-
-	// ts, err := template.ParseFiles("./ui/html/home.page.tmpl")
-	ts, err := template.ParseFiles(files...)
-
-	// If an error occurs during parsing an error is send to the client with a 500 error message.
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	err = ts.Execute(w, data)
-	if err != nil {
-		app.serverError(w, err)
-	}
+	app.render(w, r, "show.page.tmpl", &templateData{
+		Snippet: s,
+	})
 
 }
 
