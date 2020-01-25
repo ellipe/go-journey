@@ -32,11 +32,12 @@ func (app *application) clientError(w http.ResponseWriter, status int) {
 }
 
 // For consistency, we'll also implement a notFound helper. This is simply a
-// convenience wrapper around clientError which sends a 404 Not Found response to // the user.
+// convenience wrapper around clientError which sends a 404 Not Found response to // the user
 func (app *application) notFound(w http.ResponseWriter) {
 	app.clientError(w, http.StatusNotFound)
 }
 
+// render : renders a template and passes the templateData information into it
 func (app *application) render(w http.ResponseWriter, r *http.Request, name string, td *templateData) {
 	// Retrieve the appropriate template set from the cache based on the page name
 	// (like 'home.page.tmpl'). If no entry exists in the cache with the

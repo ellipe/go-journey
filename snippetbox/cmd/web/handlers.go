@@ -4,19 +4,27 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"runtime"
 	"strconv"
 
 	"ellipe.party/snippetbox/pkg/models"
 )
 
+// Define a count handler that returns the number of go routines running using the endpoint /count
+func (app *application) count(w http.ResponseWriter, r *http.Request) {
+	count := runtime.NumGoroutine()
+	w.Write([]byte(strconv.Itoa(count)))
+}
+
 // Define a home handler function which writes a byte slice containing
-// "Hello from Snippetbox" as the response body.
+// the latest snippets created.
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 	if r.URL.Path != "/" {
 		app.notFound(w)
 		return
 	}
+
 	s, err := app.snippets.Latest()
 
 	if err != nil {
@@ -30,7 +38,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// Add a showSnippet handler function.
+// showSnippet : show the snippet defined by the query string "id"
 func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 	// Attemtps to convert the URL Query String into an Integer
 	id, err := strconv.Atoi(r.URL.Query().Get("id"))

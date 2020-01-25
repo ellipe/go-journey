@@ -25,6 +25,8 @@ var functions = template.FuncMap{
 	"humanDate": humanDate,
 }
 
+// newTemplateCache : Holds the templates in memory to avoid the i/o operations every single time
+// a handler is caller.
 func newTemplateCache(dir string) (map[string]*template.Template, error) {
 	// Initialize a new map to act as the cache.
 	cache := map[string]*template.Template{}
