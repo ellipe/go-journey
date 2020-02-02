@@ -1,12 +1,13 @@
 package main
 
-import "ellipe.party/snippetbox/pkg/models"
+import (
+	"html/template"
+	"net/url"
+	"path/filepath"
+	"time"
 
-import "html/template"
-
-import "path/filepath"
-
-import "time"
+	"ellipe.party/snippetbox/pkg/models"
+)
 
 // templateData : holds the information required by the template, since only one dynamic element can be sent
 // to the HTML Template you can use an struct to hold data comming from different sources as one.
@@ -14,6 +15,8 @@ type templateData struct {
 	CurrentYear int
 	Snippet     *models.Snippet
 	Snippets    []*models.Snippet
+	FormData    url.Values
+	FormErrors  map[string]string
 }
 
 // humanDate : returns a human readable string date and time.
