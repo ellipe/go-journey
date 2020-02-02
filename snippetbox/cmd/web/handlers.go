@@ -20,11 +20,6 @@ func (app *application) count(w http.ResponseWriter, r *http.Request) {
 // the latest snippets created.
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
-	if r.URL.Path != "/" {
-		app.notFound(w)
-		return
-	}
-
 	s, err := app.snippets.Latest()
 
 	if err != nil {
@@ -41,7 +36,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 // showSnippet : show the snippet defined by the query string "id"
 func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 	// Attemtps to convert the URL Query String into an Integer
-	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	id, err := strconv.Atoi(r.URL.Query().Get(":id"))
 	// Validates if id is bigger than 0
 	if err != nil || id < 1 {
 		app.notFound(w)
@@ -62,6 +57,11 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 		Snippet: s,
 	})
 
+}
+
+// Add a new createSnippetForm handler, which for now returns a placeholder response.
+func (app *application) createSnippetForm(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Create a new snippet..."))
 }
 
 // Add a createSnippet handler function.
