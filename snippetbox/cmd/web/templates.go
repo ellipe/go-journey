@@ -2,10 +2,10 @@ package main
 
 import (
 	"html/template"
-	"net/url"
 	"path/filepath"
 	"time"
 
+	"ellipe.party/snippetbox/pkg/forms"
 	"ellipe.party/snippetbox/pkg/models"
 )
 
@@ -15,8 +15,7 @@ type templateData struct {
 	CurrentYear int
 	Snippet     *models.Snippet
 	Snippets    []*models.Snippet
-	FormData    url.Values
-	FormErrors  map[string]string
+	Form        *forms.Form
 }
 
 // humanDate : returns a human readable string date and time.
